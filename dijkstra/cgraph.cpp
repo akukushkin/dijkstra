@@ -4,7 +4,7 @@ void CGraph::dijkstraComputePaths(vertex_t source,
                                   std::vector<weight_t> &min_distance,
                                   std::vector<vertex_t> &previous)
 {
-    int n = adjacency_list.size();
+    size_t n = adjacency_list.size();
     min_distance.clear();
     min_distance.resize(n, INFINITY);
     min_distance[source] = 0;
@@ -56,29 +56,28 @@ std::list<vertex_t> CGraph::dijkstraGetShortestPathTo(vertex_t vertex,
     return path;
 }
 
-int CGraph::parseEdge(QXmlStreamReader &xgml,
-                      int &from,
-                      int &to,
-                      int &weight)
+void CGraph::parseEdge(QXmlStreamReader &xgml,
+                      vertex_t &from,
+                      vertex_t &to,
+                      weight_t &weight)
 {
     xgml.readNext();
     xgml.readNext();
     xgml.readNext();
-    from = xgml.text().toInt();
+    from = xgml.text().toUInt();
     xgml.readNext();
     xgml.readNext();
     xgml.readNext();
     xgml.readNext();
-    to = xgml.text().toInt();
+    to = xgml.text().toUInt();
     xgml.readNext();
     xgml.readNext();
     xgml.readNext();
     xgml.readNext();
     weight = xgml.text().toDouble();
-    return 0;
 }
 
-CGraph::CGraph(int cntVertex) {
+CGraph::CGraph(size_t cntVertex) {
     adjacency_list.resize(cntVertex);
 }
 
@@ -91,8 +90,9 @@ CGraph::CGraph(const std::string &inputFileName) {
 
     QXmlStreamReader xgml(file);
     QXmlStreamAttributes attributes;
-    int from, to, weight;
-    int numVertex = 0;
+    vertex_t from, to;
+    weight_t weight;
+    size_t numVertex = 0;
 
     while (!xgml.atEnd() && !xgml.hasError()) {
         QXmlStreamReader::TokenType token = xgml.readNext();
@@ -132,10 +132,12 @@ std::list<vertex_t> CGraph::getShortestPath(vertex_t start,
     std::vector<vertex_t> previous;
 
     dijkstraComputePaths(start, min_distance, previous);
-    return dijkstraGetShortestPathTo(goal, previous);
+    if (min_distance[goal] != INFINITY && min_distance[goal] >= 0)
+        return dijkstraGetShortestPathTo(goal, previous);
+    return std::list<vertex_t>();
 }
 
-int CGraph::getMinDistance(vertex_t start,
+ssize_t CGraph::getMinDistance(vertex_t start,
                            vertex_t goal)
 {
     std::vector<weight_t> min_distance;
@@ -143,9 +145,11 @@ int CGraph::getMinDistance(vertex_t start,
 
     dijkstraComputePaths(start, min_distance, previous);
 
-    return min_distance[goal];
+    if (min_distance[goal] != INFINITY && min_distance[goal] >= 0)
+        return min_distance[goal];
+    return -1;
 }
 
-int CGraph::getCountVertex() const {
+size_t CGraph::getCountVertex() const {
     return adjacency_list.size();
 }

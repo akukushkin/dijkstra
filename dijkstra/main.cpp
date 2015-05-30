@@ -1,6 +1,5 @@
 #include <QCoreApplication>
 #include <iostream>
-#include <fstream>
 #include <cgraph.h>
 
 #define INPUT_NAME_FILE "test2.xgml"
@@ -24,12 +23,17 @@ int main(int argc, char *argv[])
     std::cin >> goal;
     std::cout << std::endl;
 
+    weight_t distance = graph.getMinDistance(start, goal);
     std::cout << "Information about path from " << start << " to " << goal << " :" << std::endl;
-    std::cout << "Distance : " << graph.getMinDistance(start, goal) << std::endl;
-    std::list<vertex_t> path = graph.getShortestPath(start, goal);
-    std::cout << "Path : ";
-    std::copy(path.begin(), path.end(), std::ostream_iterator<vertex_t>(std::cout, " "));
-    std::cout << std::endl;
+    if (distance > 0) {
+        std::cout << "Distance : " << distance << std::endl;
+        std::list<vertex_t> path = graph.getShortestPath(start, goal);
+        std::cout << "Path : ";
+        std::copy(path.begin(), path.end(), std::ostream_iterator<vertex_t>(std::cout, " "));
+        std::cout << std::endl;
+    } else {
+        std::cout << "Path doesn't exists." << std::endl;
+    }
 
     return a.exec();
 }
