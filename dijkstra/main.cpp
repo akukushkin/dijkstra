@@ -2,26 +2,36 @@
 #include <iostream>
 #include <cgraph.h>
 
-#define INPUT_NAME_FILE "test2.xgml"
-
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    CGraph graph(INPUT_NAME_FILE);
+    if (argc < 2) {
+        std::cout << "Run: ./dijkstra file.xgm" << std::endl;
+        return a.exec();
+    }
+
+    CGraph graph(argv[1]);
     if (!graph.getCountVertex()) {
         std::cout << "File not found or file is an incorrect!" << std::endl;
         return a.exec();
     }
 
     vertex_t start, goal;
-    std::cout << "Enter start vertex ";
-    std::cout << "(1 - " << graph.getCountVertex() << ") :";
-    std::cin >> start;
-    std::cout << "Enter goal vertex ";
-    std::cout << "(1 - " << graph.getCountVertex() << ") :";
-    std::cin >> goal;
+    ssize_t countVertex = graph.getCountVertex();
+    do {
+        std::cout << "Enter start vertex ";
+        std::cout << "(1 - " << countVertex << ") : ";
+        std::cin >> start;
+    } while (start < 1 || start > countVertex);
+    do {
+        std::cout << "Enter goal vertex ";
+        std::cout << "(1 - " << countVertex << ") : ";
+        std::cin >> goal;
+    } while (goal < 1 || goal > countVertex);
     std::cout << std::endl;
+    --start;
+    --goal;
 
     weight_t distance = graph.getMinDistance(start, goal);
     std::cout << "Information about path from " << start << " to " << goal << " :" << std::endl;
@@ -29,7 +39,9 @@ int main(int argc, char *argv[])
         std::cout << "Distance : " << distance << std::endl;
         std::list<vertex_t> path = graph.getShortestPath(start, goal);
         std::cout << "Path : ";
-        std::copy(path.begin(), path.end(), std::ostream_iterator<vertex_t>(std::cout, " "));
+        for (std::list<vertex_t>::const_iterator i = path.begin(); i != path.end(); ++i) {
+            std::cout << *i + 1 << " ";
+        }
         std::cout << std::endl;
     } else {
         std::cout << "Path doesn't exists." << std::endl;
