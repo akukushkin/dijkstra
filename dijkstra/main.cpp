@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     --goal;
 
     weight_t distance = graph.getMinDistance(start, goal);
-    std::cout << "Information about path from " << start << " to " << goal << " :" << std::endl;
+    std::cout << "Information about path from " << start + 1 << " to " << goal + 1 << " :" << std::endl;
     if (distance > 0) {
         std::cout << "Distance : " << distance << std::endl;
         std::list<vertex_t> path = graph.getShortestPath(start, goal);
