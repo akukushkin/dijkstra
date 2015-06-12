@@ -1,0 +1,12 @@
+Programm is finding the sortest path and distance between two vertexes
+directed weighted graph with using Dijkstra's algorithm.
+
+Input data:
+1) text file with graph in format .xgml;
+2) starting vertex;
+3) target vertex.
+
+Output data:
+1) shortest distance between two vertexes;
+2) shortest path between two vertexes.
+Note: If path is not found printed message "Path doesn't exists.".

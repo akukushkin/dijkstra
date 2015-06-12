@@ -23,4 +23,6 @@ HEADERS += \
     typedef.h
 
 OTHER_FILES += \
-    test.xgml
+    test.xgml \
+    ../testGraph/test2.xgml \
+    discription.txt

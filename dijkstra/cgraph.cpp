@@ -45,21 +45,21 @@ void CGraph::dijkstraComputePaths(vertex_t source,
 }
 
 
-std::list<vertex_t> CGraph::dijkstraGetShortestPathTo(vertex_t vertex,
+std::list<vertex_t> CGraph::dijkstraGetShortestPathTo(vertex_t goal,
                                                       const std::vector<vertex_t> &previous)
 {
     std::list<vertex_t> path;
-    while (vertex != -1) {
-        path.push_front(vertex);
-        vertex = previous[vertex];
+    while (goal != -1) {
+        path.push_front(goal);
+        goal = previous[goal];
     }
     return path;
 }
 
 void CGraph::parseEdge(QXmlStreamReader &xgml,
-                      vertex_t &from,
-                      vertex_t &to,
-                      weight_t &weight)
+                       vertex_t &from,
+                       vertex_t &to,
+                       weight_t &weight)
 {
     xgml.readNext();
     xgml.readNext();
@@ -125,25 +125,25 @@ void CGraph::addEdge(vertex_t from,
     adjacency_list[from].push_back(neighbor(to, weight));
 }
 
-std::list<vertex_t> CGraph::getShortestPath(vertex_t start,
+std::list<vertex_t> CGraph::getShortestPath(vertex_t source,
                                             vertex_t goal)
 {
     std::vector<weight_t> min_distance;
     std::vector<vertex_t> previous;
 
-    dijkstraComputePaths(start, min_distance, previous);
+    dijkstraComputePaths(source, min_distance, previous);
     if (min_distance[goal] != INFINITY && min_distance[goal] >= 0)
         return dijkstraGetShortestPathTo(goal, previous);
     return std::list<vertex_t>();
 }
 
-ssize_t CGraph::getMinDistance(vertex_t start,
-                           vertex_t goal)
+ssize_t CGraph::getMinDistance(vertex_t source,
+                               vertex_t goal)
 {
     std::vector<weight_t> min_distance;
     std::vector<vertex_t> previous;
 
-    dijkstraComputePaths(start, min_distance, previous);
+    dijkstraComputePaths(source, min_distance, previous);
 
     if (min_distance[goal] != INFINITY && min_distance[goal] >= 0)
         return min_distance[goal];
