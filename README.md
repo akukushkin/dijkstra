@@ -3,13 +3,13 @@ Programm is finding the sortest path and distance between two vertexes
 directed weighted graph with using Dijkstra's algorithm.
 
 ### Input data:
-* text file with graph in format .xgml;
-* starting vertex;
-* target vertex.
+* text file with graph in format .xgml
+* starting vertex
+* target vertex
 
 ### Output data:
-* shortest distance between two vertexes;
-* shortest path between two vertexes.
+* shortest distance between two vertexes
+* shortest path between two vertexes
 
 Note: If path is not found printed message "Path doesn't exists.".
 
