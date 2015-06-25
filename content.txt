@@ -1,0 +1,4 @@
+Папка dijkstra содержит исходники.
+Папка testGraph содержит тестовые xgml-файлы.
+Файл discription.txt содержит описанние проекта.
+README.md и .gitignore - GitHub-файлы.
